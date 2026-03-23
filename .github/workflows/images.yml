@@ -1,0 +1,44 @@
+name: Generate image list
+
+on:
+  push:
+    paths:
+      - "wallpaper/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # ⭐ สำคัญมาก (ให้ git log ใช้ได้)
+
+      - name: Generate images.json
+        run: |
+          echo "[" > images.json
+          first=1
+
+          for file in $(find wallpaper -type f | sort); do
+            rel=$(echo $file | sed 's|^wallpaper/||')
+
+            # ⭐ เอาวันที่ "เพิ่มไฟล์ครั้งแรก"
+            date=$(git log --diff-filter=A --format="%cs" -1 -- "$file")
+
+            if [ $first -eq 0 ]; then
+              echo "," >> images.json
+            fi
+
+            echo "{\"url\":\"$rel\",\"date\":\"$date\"}" >> images.json
+            first=0
+          done
+
+          echo "]" >> images.json
+
+      - name: Commit
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add images.json
+          git commit -m "update images" || echo "no change"
+          git push
