@@ -31,6 +31,11 @@ fetch("images.json")
 
 images=data
 
+/* 🔥 กันไฟล์ซ้ำ */
+images = images.filter((v,i,a)=>
+  a.findIndex(t=>t.url===v.url)===i
+)
+
 /* ✅ เพิ่ม: เรียงใหม่สุดก่อน */
 images.sort((a,b)=> new Date(b.date)-new Date(a.date))
 
@@ -60,9 +65,11 @@ tag.innerText="daily"
 const overlay=document.createElement("div")
 overlay.className="overlay"
 
-const daysAgo = getDaysAgo(file.date)
+const daysAgo = file.date ? getDaysAgo(file.date) : null
 
-if(daysAgo === 0){
+if(daysAgo === null){
+  overlay.innerText = "⚠️ Unknown"
+}else if(daysAgo === 0){
   overlay.innerText = "🟢 Today"
 }else if(daysAgo === 1){
   overlay.innerText = "🕒 1 day ago"
