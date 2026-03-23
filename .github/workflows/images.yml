@@ -19,21 +19,20 @@ jobs:
           echo "[" > images.json
           first=1
 
-          for file in $(find wallpaper -type f -name "*.*" | sort); do
+          find wallpaper -type f -name "*.*" | sort | while IFS= read -r file; do
             rel=$(echo "$file" | sed 's|^wallpaper/||')
 
-            # ⭐ กันไฟล์แปลก เช่น (1).jpg ที่ไม่มี path จริง
+            # กันไฟล์พัง
             if [ ! -f "$file" ]; then
               continue
             fi
 
-            # ⭐ ดึงนามสกุล (ไว้ใช้ในอนาคต เช่น video)
             ext="${file##*.}"
 
-            # ⭐ วันที่เพิ่มไฟล์ครั้งแรก
+            # วันที่เพิ่มไฟล์ครั้งแรก
             date=$(git log --diff-filter=A --format="%cs" -1 -- "$file")
 
-            # ⭐ ถ้าไม่มี date ให้ข้าม (กัน JSON เละ)
+            # ถ้าไม่มี date ให้ข้าม
             if [ -z "$date" ]; then
               continue
             fi
