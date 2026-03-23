@@ -59,7 +59,10 @@ img.onerror=()=>card.remove()
 
 const tag=document.createElement("div")
 tag.className="tag"
-tag.innerText="daily"
+
+/* เอา folder แรกมาเป็น tag */
+const folder = file.url.split("/")[0]
+tag.innerText = folder
 
 /* ✅ แก้: แสดงกี่วันแล้ว */
 const overlay=document.createElement("div")
