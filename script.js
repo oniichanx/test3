@@ -62,7 +62,7 @@ tag.className="tag"
 
 /* เอา folder แรกมาเป็น tag */
 const folder = file.url.split("/")[0]
-tag.innerText = folder
+tag.innerText = `${folder} • ${file.type}`
 
 /* ✅ แก้: แสดงกี่วันแล้ว */
 const overlay=document.createElement("div")
