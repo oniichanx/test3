@@ -12,24 +12,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # ⭐ สำคัญมาก (ให้ git log ใช้ได้)
+          fetch-depth: 0
 
       - name: Generate images.json
         run: |
           echo "[" > images.json
           first=1
 
-          for file in $(find wallpaper -type f | sort); do
-            rel=$(echo $file | sed 's|^wallpaper/||')
+          for file in $(find wallpaper -type f -name "*.*" | sort); do
+            rel=$(echo "$file" | sed 's|^wallpaper/||')
 
-            # ⭐ เอาวันที่ "เพิ่มไฟล์ครั้งแรก"
+            # ⭐ กันไฟล์แปลก เช่น (1).jpg ที่ไม่มี path จริง
+            if [ ! -f "$file" ]; then
+              continue
+            fi
+
+            # ⭐ ดึงนามสกุล (ไว้ใช้ในอนาคต เช่น video)
+            ext="${file##*.}"
+
+            # ⭐ วันที่เพิ่มไฟล์ครั้งแรก
             date=$(git log --diff-filter=A --format="%cs" -1 -- "$file")
+
+            # ⭐ ถ้าไม่มี date ให้ข้าม (กัน JSON เละ)
+            if [ -z "$date" ]; then
+              continue
+            fi
 
             if [ $first -eq 0 ]; then
               echo "," >> images.json
             fi
 
-            echo "{\"url\":\"$rel\",\"date\":\"$date\"}" >> images.json
+            echo "{\"url\":\"$rel\",\"type\":\"$ext\",\"date\":\"$date\"}" >> images.json
             first=0
           done
 
