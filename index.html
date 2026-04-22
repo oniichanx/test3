@@ -7,8 +7,7 @@
 
 <title>Image Serenity</title>
 
-<!-- cache busting -->
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 
 </head>
 
@@ -19,7 +18,6 @@
 <p>Curated wallpaper collection</p>
 </header>
 
-<!-- filter bar -->
 <div id="filterBar"></div>
 
 <div class="gallery" id="gallery"></div>
@@ -31,10 +29,20 @@
 <a id="download" download>Download</a>
 </div>
 
-<button id="topBtn">↑</button>
-<button id="themeBtn">🌙</button>
+<!-- filter popup -->
+<div id="filterPopup">
+  <button class="fpBtn active" data-key="all"       data-tip="ทั้งหมด">🖼️</button>
+  <button class="fpBtn"        data-key="landscape"  data-tip="แนวนอน">🖥️</button>
+  <button class="fpBtn"        data-key="portrait"   data-tip="แนวตั้ง">📱</button>
+  <button class="fpBtn"        data-key="mobile"     data-tip="มือถือ">🔲</button>
+</div>
 
-<script src="script.js?v=4"></script>
+<!-- FAB buttons -->
+<button id="topBtn"    class="fab">↑</button>
+<button id="filterFab" class="fab">⊞</button>
+<button id="themeBtn"  class="fab">🌙</button>
+
+<script src="script.js?v=5"></script>
 
 </body>
 </html>
