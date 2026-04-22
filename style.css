@@ -121,7 +121,7 @@ z-index:100;
 }
 
 /* desktop */
-#themeBtn{ bottom:90px;right:90px;background:rgba(48,54,61,.9); }
+#themeBtn{ bottom:30px;right:90px;background:rgba(48,54,61,.9); }
 #topBtn  { bottom:30px;right:30px;background:rgba(35,134,54,.85);display:none; }
 #filterFab{ bottom:90px;right:30px;background:rgba(48,54,61,.9); }
 
